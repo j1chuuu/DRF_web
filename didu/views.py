@@ -8,9 +8,10 @@ class PostViewSet(ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
 
-    def dispatch(self, request, *args, **kwargs):
-        print()
-        return super().dispatch(request, *args, **kwargs)
+    # def dispatch(self, request, *args, **kwargs):
+    #     print("request.body :", request.body)
+    #     print("request.POST :", request.POST) # 실제 product에선 logger 사용하기
+    #     return super().dispatch(request, *args, **kwargs)
 
 def post_list(request):
     # 2개 분기
