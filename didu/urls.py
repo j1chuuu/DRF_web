@@ -8,6 +8,6 @@ router.register('post', views.PostViewSet) # 2개 URL을 만들어줌
 
 
 urlpatterns = [
-    path('public/', views.PublicPostListAPIView.as_view()),
+    path('public/', views.public_post_list),
     path('', include(router.urls)),
 ]
