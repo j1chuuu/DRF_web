@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from rest_framework import generics
+from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
@@ -32,6 +33,22 @@ public_post_list = PublicPostListAPIView.as_view()
 class PostViewSet(ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
+
+    @action(detail=False, methods=['GET'])
+    def public(self, request):
+        qs = self.get_queryset().filter(is_public=True)
+        serializer = self.get_serializer(qs, many=True)
+        # serializer = PostSerializer(qs, many=True)
+        return Response(serializer.data)
+
+    @action(detail=False, methods=['PATCH'])
+    def set_public(self, request, pk):
+        instance = self.get_object()
+        instance.is_public = True
+        instance.save(update_fields=['is_public'])
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
+
 
     # def dispatch(self, request, *args, **kwargs):
     #     print("request.body :", request.body)
